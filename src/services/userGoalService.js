@@ -59,9 +59,11 @@ export const formatInterviewNotice = (goal) => {
   if (!goal || !goal.mockInterviewDate) return 'Date 27 August is marked for your mock interview';
   
   const d = new Date(goal.mockInterviewDate);
+  if (isNaN(d.getTime())) return 'Date 27 August is marked for your mock interview';
+
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const day = d.getDate();
-  const month = monthNames[d.getMonth()];
+  const month = monthNames[d.getMonth()] || 'August';
   
   return `Date ${day} ${month} is marked for your mock interview`;
 };
@@ -69,6 +71,7 @@ export const formatInterviewNotice = (goal) => {
 export const getDaysRemaining = (dateString) => {
   if (!dateString) return 19;
   const target = new Date(dateString);
+  if (isNaN(target.getTime())) return 19;
   const now = new Date();
   const diff = target - now;
   return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
